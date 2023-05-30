@@ -8,7 +8,7 @@
   (process (or (fs/which "aplay")
                (fs/which "afplay")
                (fs/which "play"))
-           (str root "/sounds/" fname ".wav")))
+           (str root "/sounds/" fname)))
 
 (defmacro time-ret
   [expr]
@@ -25,7 +25,8 @@
     (println (str color bar reset-color))))
 
 (defn -main [& args]
-  (play "start")
+  ;; Disabled start
+  ;; (play "start.wav")
   (let [[elapsed-ms prc] (time-ret (apply shell {:continue true} args))]
     (bar (if (zero? (:exit prc))
            green
@@ -34,6 +35,6 @@
          "\u2588")
     (println "... " (long elapsed-ms) "ms")
     (if (zero? (:exit prc))
-      (play "success")
-      (play "fail"))
+      (play "pillsbury_success.mp3")
+      (play "pillsbury_failure.mp3"))
     (System/exit (:exit prc))))
